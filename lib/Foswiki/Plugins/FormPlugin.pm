@@ -130,6 +130,11 @@ sub initPlugin {
     return 1;
 }
 
+sub finishPlugin {
+    undef $currentTopic;
+    undef $web;
+}
+
 =pod
 
 =cut
