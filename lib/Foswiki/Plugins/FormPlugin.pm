@@ -1277,9 +1277,9 @@ sub _getFormElementHtml {
     $onKeyDown   ||= $params->{'onKeyDown'};
 
     my %extraAttributes = ();
-    $extraAttributes{'class'}    = $cssClass if $cssClass;
-    $extraAttributes{'disabled'} = $disabled if $disabled;
-    $extraAttributes{'readonly'} = $readonly if $readonly;
+    $extraAttributes{'-class'}    = $cssClass if $cssClass;
+    $extraAttributes{'-disabled'} = $disabled if $disabled;
+    $extraAttributes{'-readonly'} = $readonly if $readonly;
     $extraAttributes{'-tabindex'} = ++$tabCounter;
 
     # javascript parameters
@@ -1454,7 +1454,7 @@ sub _getPasswordFieldHtml {
 sub _getTextOnlyHtml {
     my ( $session, $name, $value, %extraAttributes ) = @_;
 
-    my $element = CGI::span( { class => $TEXTONLY_CSS_CLASS }, $value );
+    my $element = CGI::span( { -class => $TEXTONLY_CSS_CLASS }, $value );
     $element .= _hiddenField( $name, $value );
     return $element;
 }
@@ -1485,14 +1485,14 @@ sub _textfieldAttributes {
     );
     %attributes = ( %attributes, %extraAttributes );
 
-    my $cssClass = $attributes{'class'} || '';
+    my $cssClass = $attributes{'-class'} || '';
     $cssClass = 'foswikiInputFieldDisabled'
       if ( !$cssClass && $attributes{'disabled'} );
     $cssClass = 'foswikiInputFieldReadOnly'
       if ( !$cssClass && $attributes{'readonly'} );
     $cssClass ||= 'foswikiInputField';
     $cssClass = _normalizeCssClassName($cssClass);
-    $attributes{'class'} = $cssClass if $cssClass;
+    $attributes{'-class'} = $cssClass if $cssClass;
 
     return %attributes;
 }
@@ -1512,12 +1512,12 @@ sub _getSubmitButtonHtml {
     );
     %attributes = ( %attributes, %extraAttributes );
 
-    my $cssClass = $attributes{'class'} || '';
+    my $cssClass = $attributes{'-class'} || '';
     $cssClass = 'foswikiSubmitDisabled'
       if ( !$cssClass && $attributes{'disabled'} );
     $cssClass ||= 'foswikiSubmit';
     $cssClass = _normalizeCssClassName($cssClass);
-    $attributes{'class'} = $cssClass if $cssClass;
+    $attributes{'-class'} = $cssClass if $cssClass;
     return CGI::submit(%attributes);
 }
 
@@ -1536,14 +1536,14 @@ sub _getTextareaHtml {
     );
     %attributes = ( %attributes, %extraAttributes );
 
-    my $cssClass = $attributes{'class'} || '';
+    my $cssClass = $attributes{'-class'} || '';
     $cssClass = 'foswikiInputFieldDisabled'
       if ( !$cssClass && $attributes{'disabled'} );
     $cssClass = 'foswikiInputFieldReadOnly'
       if ( !$cssClass && $attributes{'readonly'} );
     $cssClass ||= 'foswikiInputField';
     $cssClass = _normalizeCssClassName($cssClass);
-    $attributes{'class'} = $cssClass if $cssClass;
+    $attributes{'-class'} = $cssClass if $cssClass;
 
     return CGI::textarea(%attributes);
 }
@@ -1583,10 +1583,10 @@ sub _getCheckboxButtonGroupHtml {
     );
     %attributes = ( %attributes, %extraAttributes );
 
-    my $cssClass = $attributes{'class'} || '';
+    my $cssClass = $attributes{'-class'} || '';
     $cssClass = 'foswikiCheckbox ' . $cssClass;
     $cssClass = _normalizeCssClassName($cssClass);
-    $attributes{'class'} = $cssClass if $cssClass;
+    $attributes{'-class'} = $cssClass if $cssClass;
 
     my @items = _checkbox_group(%attributes);
 
@@ -1631,12 +1631,12 @@ sub _getRadioButtonGroupHtml {
     );
     %attributes = ( %attributes, %extraAttributes );
 
-    my $cssClass = $attributes{'class'} || '';
+    my $cssClass = $attributes{'-class'} || '';
     $cssClass = 'foswikiInputFieldDisabled'
       if ( !$cssClass && $attributes{'disabled'} );
     $cssClass = 'foswikiRadioButton ' . $cssClass;
     $cssClass = _normalizeCssClassName($cssClass);
-    $attributes{'class'} = $cssClass if $cssClass;
+    $attributes{'-class'} = $cssClass if $cssClass;
 
     my @items = _radio_group(%attributes);
     return _wrapHtmlGroupContainer(
@@ -1699,12 +1699,12 @@ sub _getSelectHtml {
     );
     %attributes = ( %attributes, %extraAttributes );
 
-    my $cssClass = $attributes{'class'} || '';
+    my $cssClass = $attributes{'-class'} || '';
     $cssClass = 'foswikiSelectDisabled'
       if ( !$cssClass && $attributes{'disabled'} );
     $cssClass = 'foswikiSelect ' . $cssClass;
     $cssClass = _normalizeCssClassName($cssClass);
-    $attributes{'class'} = $cssClass if $cssClass;
+    $attributes{'-class'} = $cssClass if $cssClass;
 
     my @items = CGI::scrolling_list(%attributes);
     return _mapToItemFormatString( \@items );
@@ -1887,7 +1887,7 @@ sub _wrapHtmlError {
     my ($text) = @_;
 
     return "<a name=\"$NOTIFICATION_ANCHOR_NAME\"><!--//--></a>"
-      . CGI::div( { class => "$ERROR_CSS_CLASS $NOTIFICATION_CSS_CLASS" },
+      . CGI::div( { -class => "$ERROR_CSS_CLASS $NOTIFICATION_CSS_CLASS" },
         $text )
       . "$SEP";
 }
@@ -1910,7 +1910,7 @@ sub _wrapHtmlErrorItem {
 sub _wrapHtmlAuthorMessage {
     my ($text) = @_;
 
-    return CGI::div( { class => 'foswikiAlert' }, $text );
+    return CGI::div( { -class => 'foswikiAlert' }, $text );
 }
 
 =pod
@@ -1934,7 +1934,7 @@ sub _wrapHtmlGroupContainer {
 sub _wrapHtmlErrorContainer {
     my ($text) = @_;
 
-    return CGI::div( { class => $ERROR_CSS_CLASS }, $text );
+    return CGI::div( { -class => $ERROR_CSS_CLASS }, $text );
 }
 
 =pod
@@ -1944,7 +1944,7 @@ sub _wrapHtmlErrorContainer {
 sub _wrapHtmlTitleContainer {
     my ($text) = @_;
 
-    return CGI::span( { class => $TITLE_CSS_CLASS }, $text );
+    return CGI::span( { -class => $TITLE_CSS_CLASS }, $text );
 }
 
 =pod
@@ -1964,7 +1964,7 @@ sub _wrapHtmlErrorTitleContainer {
 sub _wrapHtmlHintContainer {
     my ($text) = @_;
 
-    return CGI::span( { class => $HINT_CSS_CLASS }, $text );
+    return CGI::span( { -class => $HINT_CSS_CLASS }, $text );
 }
 
 =pod
@@ -1974,7 +1974,7 @@ sub _wrapHtmlHintContainer {
 sub _wrapHtmlMandatoryContainer {
     my ($text) = @_;
 
-    return CGI::span( { class => $MANDATORY_CSS_CLASS }, $text );
+    return CGI::span( { -class => $MANDATORY_CSS_CLASS }, $text );
 }
 
 sub _checkForString {
