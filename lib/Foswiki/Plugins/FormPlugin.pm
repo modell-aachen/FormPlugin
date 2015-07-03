@@ -1727,9 +1727,9 @@ sub _getDateFieldHtml {
     my %attributes =
       _textfieldAttributes( $session, $name, $value, $size, $maxlength,
         %extraAttributes );
-    my $id = $attributes{'id'}
+    my $id = $attributes{'-id'}
       || 'cal' . ( $currentForm->{'name'} || '' ) . $name;
-    $attributes{'id'} ||= $id;
+    $attributes{'-id'} ||= $id;
 
     my $text = CGI::textfield(%attributes);
 
